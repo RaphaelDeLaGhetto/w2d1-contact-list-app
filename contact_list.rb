@@ -17,6 +17,14 @@ class ContactList
       end
       puts '---'
       puts "#{contacts.count} records total"
+
+    when 'new'
+      # kernel#gets only works if argv is empty
+      puts 'Name:'
+      name = STDIN.gets.chomp
+      puts 'Email:'
+      email = STDIN.gets.chomp
+      Contact.create(name, email)
     when nil 
       puts "Here is a list of available commands:\n"\
            "  new    - Create a new contact\n"\
