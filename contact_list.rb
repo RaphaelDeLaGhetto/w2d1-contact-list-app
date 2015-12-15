@@ -10,6 +10,13 @@ class ContactList
 
   def process
     case @input[0]
+    when 'all'
+      contacts = Contact.all
+      contacts.each_with_index do |contact, index|
+        puts "#{index + 1}: #{contact[0]} (#{contact[1]})"
+      end
+      puts '---'
+      puts "#{contacts.count} records total"
     when nil 
       puts "Here is a list of available commands:\n"\
            "  new    - Create a new contact\n"\
@@ -20,7 +27,6 @@ class ContactList
   end
 
 end
-
 
 if __FILE__ == $PROGRAM_NAME
   ContactList.new(ARGV).process

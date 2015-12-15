@@ -14,7 +14,7 @@ class Contact
 
     # Returns an Array of Contacts loaded from the database.
     def all
-      # TODO: Return an Array of Contact instances made from the data in 'contacts.csv'.
+      CSV.read("../data/contacts.csv")
     end
 
     # Creates a new contact, adding it to the database, returning the new contact.

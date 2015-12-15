@@ -1,19 +1,21 @@
 require 'contact'
 
 describe Contact do
-#  describe '#initialise' do
-#    it "sets the number of legs to 2" do
-#      chimp = Chimpanzee.new
-#      expect(chimp.num_legs).to eq(2)
-#    end
-#  end
-#
-#  describe '#warm_blooded?' do
-#    it "returns true" do
-#      chimp = Chimpanzee.new
-#      expect(chimp.warm_blooded?).to eq(true)
-#    end
-#  end
+  context 'class methods' do
+
+    before(:each) do
+      data = ['Khurram Virani,kvirani@lighthouselabs.ca', 'Don Burks,don@lighthouselabs.ca']
+      #allow(CSV).to receive(:foreach).and_yield(data[0]).and_yield(data[1])
+      allow(CSV).to receive(:read).and_return(CSV.parse(data[0]) << CSV.parse(data[1])[0])
+    end
+
+    describe '#all'do
+      it 'returns a formatted list of all contacts' do
+        expect(Contact.all).to eq([['Khurram Virani', 'kvirani@lighthouselabs.ca'], ['Don Burks', 'don@lighthouselabs.ca']])
+      end
+    end 
+
+  end
 end
 
 
