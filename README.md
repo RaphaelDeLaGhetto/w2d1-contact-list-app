@@ -18,12 +18,6 @@ bundle install
 ruby contact_list.rb
 ```
 
-Or,
-
-```
-./contact_list.rb
-```
-
 # Test
 
 ```
