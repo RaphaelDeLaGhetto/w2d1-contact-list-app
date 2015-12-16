@@ -72,8 +72,7 @@ describe ContactList do
     end
 
     context "program is executed with 'find' argument" do
-
-      it 'outputs the information beloing to the contact with the corresponding id' do
+      it 'outputs the information belonging to the contact with the corresponding id' do
         expect { ContactList.new(['show', '1']).process }.to output("1: Khurram Virani (kvirani@lighthouselabs.ca)\n").to_stdout
         expect { ContactList.new(['show', '2']).process }.to output("2: Don Burks (don@lighthouselabs.ca)\n").to_stdout
       end
@@ -83,6 +82,26 @@ describe ContactList do
         expect { ContactList.new(['show', '0']).process }.to output("That contact doesn't exist\n").to_stdout
         expect { ContactList.new(['show', '3']).process }.to output("That contact doesn't exist\n").to_stdout
         expect { ContactList.new(['show', 'junk']).process }.to output("That contact doesn't exist\n").to_stdout
+      end
+    end
+
+    context "program is executed with 'search' argument" do
+      it 'outputs the information belonging to the contacts whose details match the search term' do
+        expect { ContactList.new(['search', 'khurram']).process }.to output("1: Khurram Virani (kvirani@lighthouselabs.ca)\n"\
+                                                                            "---\n"\
+                                                                            "1 record total\n").to_stdout
+        expect { ContactList.new(['search', 'don']).process }.to output("2: Don Burks (don@lighthouselabs.ca)\n"\
+                                                                        "---\n"\
+                                                                        "1 record total\n").to_stdout
+        expect { ContactList.new(['search', 'LIGHTHOUSE']).process }.to output("1: Khurram Virani (kvirani@lighthouselabs.ca)\n"\
+                                                                               "2: Don Burks (don@lighthouselabs.ca)\n"\
+                                                                               "---\n"\
+                                                                               "2 records total\n").to_stdout
+      end
+
+      it "doesn't barf if nothing matches the search term" do
+         expect { ContactList.new(['search', 'daniel']).process }.to output("---\n"\
+                                                                            "0 records total\n").to_stdout
       end
     end
   end

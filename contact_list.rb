@@ -1,4 +1,5 @@
 require './lib/contact'
+require 'active_support/inflector'
 
 # Interfaces between a user and their contact list. Reads from and writes to standard I/O.
 class ContactList
@@ -28,6 +29,14 @@ class ContactList
       id = @input[1].to_i
       record = Contact.find(id)
       puts record.nil? ? "That contact doesn't exist" : "#{id}: #{record[0]} (#{record[1]})"
+    when 'search'
+      # This should be DRYed out
+      contacts = Contact.search(@input[1])
+      contacts.each do |contact|
+        puts "#{contact[2]}: #{contact[0]} (#{contact[1]})"
+      end
+      puts '---'
+      puts "#{contacts.count} #{"record".pluralize(contacts.count)} total"
     when nil 
       puts "Here is a list of available commands:\n"\
            "  new    - Create a new contact\n"\

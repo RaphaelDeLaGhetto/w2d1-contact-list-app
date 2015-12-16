@@ -33,10 +33,18 @@ class Contact
     end
 
     # Returns an array of contacts who match the given term.
-    def search(term)
-      # TODO: Select the Contact instances from the 'contacts.csv' file whose name or email attributes contain the search term.
+    def search(term=nil)
+      matches = []
+      return matches if term.nil? || term.empty?
+      id = 1
+      CSV.foreach("data/contacts.csv") do |record|
+        if Regexp.new(Regexp.quote(term), 'i').match(record.join(' '))
+          record << id
+          matches << record
+        end
+        id += 1
+      end
+      matches
     end
-
   end
-
 end

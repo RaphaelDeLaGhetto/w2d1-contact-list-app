@@ -62,6 +62,41 @@ describe Contact do
     end 
 
     describe '#search'do
+      it 'finds the contacts that match the search term provided' do
+        records = Contact.search('khurram') 
+        expect(records.count).to eq(1)
+        expect(records[0][0]).to eq("Khurram Virani")
+        expect(records[0][1]).to eq("kvirani@lighthouselabs.ca")
+        records = Contact.search('kvirani') 
+        expect(records.count).to eq(1)
+        expect(records[0][0]).to eq("Khurram Virani")
+        expect(records[0][1]).to eq("kvirani@lighthouselabs.ca")
+        expect(records[0][2]).to eq(1)
+        records = Contact.search('don') 
+        expect(records.count).to eq(1)
+        expect(records[0][0]).to eq("Don Burks")
+        expect(records[0][1]).to eq("don@lighthouselabs.ca")
+        expect(records[0][2]).to eq(2)
+        records = Contact.search('LIGHTHOUSE') 
+        expect(records.count).to eq(2)
+        expect(records[0][0]).to eq("Khurram Virani")
+        expect(records[0][1]).to eq("kvirani@lighthouselabs.ca")
+        expect(records[0][2]).to eq(1)
+        expect(records[1][0]).to eq("Don Burks")
+        expect(records[1][1]).to eq("don@lighthouselabs.ca")
+        expect(records[1][2]).to eq(2)
+      end 
+
+      it "doesn't barf if the search term doesn't match" do
+        records = Contact.search('daniel') 
+        expect(records.count).to eq(0)
+        records = Contact.search('')
+        expect(records.count).to eq(0)
+        records = Contact.search('    ')
+        expect(records.count).to eq(0)
+        records = Contact.search
+        expect(records.count).to eq(0)
+      end 
     end
   end
 end
