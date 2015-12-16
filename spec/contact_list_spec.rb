@@ -70,5 +70,20 @@ describe ContactList do
         expect(@contact.email).to eq(@email)
       end
     end
+
+    context "program is executed with 'find' argument" do
+
+      it 'outputs the information beloing to the contact with the corresponding id' do
+        expect { ContactList.new(['show', '1']).process }.to output("1: Khurram Virani (kvirani@lighthouselabs.ca)\n").to_stdout
+        expect { ContactList.new(['show', '2']).process }.to output("2: Don Burks (don@lighthouselabs.ca)\n").to_stdout
+      end
+
+      it "doesn't barf if the given id is out of range" do
+        expect { ContactList.new(['show', '-1']).process }.to output("That contact doesn't exist\n").to_stdout
+        expect { ContactList.new(['show', '0']).process }.to output("That contact doesn't exist\n").to_stdout
+        expect { ContactList.new(['show', '3']).process }.to output("That contact doesn't exist\n").to_stdout
+        expect { ContactList.new(['show', 'junk']).process }.to output("That contact doesn't exist\n").to_stdout
+      end
+    end
   end
 end

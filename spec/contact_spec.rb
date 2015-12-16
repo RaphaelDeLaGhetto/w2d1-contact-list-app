@@ -35,6 +35,34 @@ describe Contact do
         expect(@parsed_data[2]).to eq([contact.name, contact.email])
       end
     end 
+
+    describe '#find'do
+      # IDs aren't set in the CSV file. IDs correspond to the record's place in the file
+      it 'finds the contact with the given id' do
+        record = Contact.find(1) 
+        expect(record[0]).to eq("Khurram Virani")
+        expect(record[1]).to eq("kvirani@lighthouselabs.ca")
+        record = Contact.find(2) 
+        expect(record[0]).to eq("Don Burks")
+        expect(record[1]).to eq("don@lighthouselabs.ca")
+      end 
+
+      it "doesn't barf if the given id is out of range" do
+        record = Contact.find 
+        expect(record).to eq(nil)
+        record = Contact.find(-1) 
+        expect(record).to eq(nil)
+        record = Contact.find(0) 
+        expect(record).to eq(nil)
+        record = Contact.find(3) 
+        expect(record).to eq(nil)
+        record = Contact.find('junk') 
+        expect(record).to eq(nil)
+      end
+    end 
+
+    describe '#search'do
+    end
   end
 end
 

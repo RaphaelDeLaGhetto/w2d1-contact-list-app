@@ -27,8 +27,9 @@ class Contact
     end
 
     # Returns the contact with the specified id. If no contact has the id, returns nil.
-    def find(id)
-      # TODO: Find the Contact in the 'contacts.csv' file with the matching id.
+    def find(id=nil)
+      record = CSV.open("data/contacts.csv").drop(id - 1).take(1) if id.is_a?(Integer) && id > 0 
+      record.nil? || record.empty? ? nil : record[0]
     end
 
     # Returns an array of contacts who match the given term.
