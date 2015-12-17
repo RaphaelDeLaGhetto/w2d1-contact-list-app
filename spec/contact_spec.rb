@@ -5,18 +5,17 @@ describe Contact do
 
     before(:each) do
       data = ['Khurram Virani,kvirani@lighthouselabs.ca', 'Don Burks,don@lighthouselabs.ca']
-      #allow(CSV).to receive(:foreach).and_yield(data[0]).and_yield(data[1])
       @parsed_data = CSV.parse(data[0]) << CSV.parse(data[1])[0]
       allow(CSV).to receive(:read).and_return(@parsed_data)
     end
 
-    describe '#all'do
+    describe '.all'do
       it 'returns a formatted list of all contacts' do
         expect(Contact.all).to eq([['Khurram Virani', 'kvirani@lighthouselabs.ca'], ['Don Burks', 'don@lighthouselabs.ca']])
       end
     end 
 
-    describe '#create'do
+    describe '.create'do
       before(:each) do
         @name = 'Dan'
         @email = 'daniel@capitolhll.ca'
@@ -36,7 +35,7 @@ describe Contact do
       end
     end 
 
-    describe '#find'do
+    describe '.find'do
       # IDs aren't set in the CSV file. IDs correspond to the record's place in the file
       it 'finds the contact with the given id' do
         record = Contact.find(1) 
@@ -61,7 +60,7 @@ describe Contact do
       end
     end 
 
-    describe '#search'do
+    describe '.search'do
       it 'finds the contacts that match the search term provided' do
         records = Contact.search('khurram') 
         expect(records.count).to eq(1)
@@ -100,5 +99,3 @@ describe Contact do
     end
   end
 end
-
-
